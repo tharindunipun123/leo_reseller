@@ -1,0 +1,204 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffecd2, #fcb69f, #fecfef, #ffc3a0);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+.registration-container {
+    max-width: 400px;
+    width: 90%;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.registration-container h2 {
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #8b00ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% auto;
+    animation: rainbow 5s linear infinite;
+}
+
+@keyframes rainbow { 
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+}
+
+.registration-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.registration-container input,
+.registration-container textarea {
+    margin-bottom: 1rem;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.registration-container input:focus,
+.registration-container textarea:focus {
+    outline: none;
+    border-color: #1a73e8;
+    box-shadow: 0 0 0 2px rgba(26, 115, 232, 0.2);
+}
+
+.registration-container textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.registration-container button {
+    background-color: #1a73e8;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 1rem;
+}
+
+.registration-container button:hover {
+    background-color: #1557b0;
+}
+
+.registration-container p {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 14px;
+    color: #666;
+}
+
+.registration-container a {
+    color: #1a73e8;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.registration-container a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .registration-container {
+        width: 95%;
+        padding: 1.5rem;
+        margin: 1rem auto;
+    }
+
+    .registration-container h2 {
+        font-size: 28px;
+    }
+
+    .registration-container input,
+    .registration-container textarea,
+    .registration-container button {
+        font-size: 14px;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -48%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+.registration-container {
+    animation: fadeIn 0.5s ease-out;
+}
+/* Add these styles to your Registration.css file */
+
+.file-upload-container {
+    margin-bottom: 1rem;
+}
+
+.file-upload-label {
+    display: block;
+    padding: 12px 16px;
+    background-color: #f0f2f5;
+    border: 2px dashed #1a73e8;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.file-upload-label:hover {
+    background-color: #e8f0fe;
+}
+
+.file-input {
+    display: none;
+}
+
+.image-preview {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.image-preview img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Update existing button styles */
+.registration-container button {
+    background: linear-gradient(45deg, #1a73e8, #0d47a1);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.registration-container button:hover {
+    background: linear-gradient(45deg, #0d47a1, #1a73e8);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.2);
+}
