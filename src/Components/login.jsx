@@ -1,196 +1,99 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import Swal from 'sweetalert2';
-import { 
-    FaHistory, 
-    FaExchangeAlt, 
-    FaGem,
-    FaUser,
-    FaChartLine,
-    FaBell,
-    FaCog,
-    FaSignOutAlt 
-} from 'react-icons/fa';
-import './Dashboard.css';
+import { useNavigate } from 'react-router-dom';
+import './Login.css'; // Ensure to style your component in this CSS file
+import LoginIllustration from './undraw_Mobile_development_re_wwsn.png';
 
-function Dashboard() {
+const PhoneNumberOtp = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [notifications, setNotifications] = useState([]);
-  const [recentTransactions, setRecentTransactions] = useState([
-    { type: 'Diamond Transfer', amount: 500, date: '2024-01-20' },
-    { type: 'Purchase', amount: 1000, date: '2024-01-19' },
-    { type: 'Sale', amount: 750, date: '2024-01-18' },
-  ]);
+  const [step, setStep] = useState(1); // 1 for phone number, 2 for OTP
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [otp, setOtp] = useState('');
+  const [userId, setUserId] = useState(null); // Store userId from API response
 
-  useEffect(() => {
-    const fetchUserData = async () => {
+  // Handle the submission of the phone number
+  const handlePhoneNumberSubmit = async (e) => {
+    e.preventDefault();
+    // Simulate sending OTP (you would actually call your API here)
+    Swal.fire('OTP Sent', 'An OTP has been sent to your phone number.', 'success');
+    setStep(2); // Move to the OTP step
+  };
+
+  // Handle the submission of the OTP
+  const handleOtpSubmit = async (e) => {
+    e.preventDefault();
+    // Simulate OTP verification (you would actually verify with your API here)
+    if (otp === '123456') { // Replace this with actual OTP verification logic
       try {
-        const userPhone = localStorage.getItem('user_phone');
-        
-        if (!userPhone) {
-          throw new Error('User phone number not found');
-        }
-
-        const response = await fetch(`http://109.199.99.84:8090/api/collections/resellers_registration/records?filter=(leo_number='${userPhone}')`);
-        
-        if (!response.ok) {
-          throw new Error('Failed to fetch user data');
-        }
-
+        const response = await fetch(`http://127.0.0.1:8090/api/collections/resellers/records?filter=(leo_number='${phoneNumber}')`);
         const data = await response.json();
-        
-        if (data.items && data.items.length > 0) {
-          setUser(data.items[0]);
-          // Store the record ID for future use
-          localStorage.setItem('user_id', data.items[0].id);
+
+        if (data.items.length > 0) {
+          const user = data.items[0];
+          setUserId(user.id);
+          localStorage.setItem('user_id', user.id); // Save userId in local storage
+          Swal.fire('Login Successful', 'You are now logged in!', 'success');
+          navigate('/dashboard'); // Redirect to the dashboard or another page
         } else {
-          throw new Error('User not found');
+          Swal.fire('Error', 'User not found!', 'error');
         }
       } catch (error) {
         console.error('Error fetching user data:', error);
-        Swal.fire({
-          icon: 'error',
-          title: 'Failed to load user data',
-          text: error.message || 'Please try refreshing the page.',
-        }).then(() => {
-          // Redirect to login if there's an authentication issue
-          navigate('/login');
-        });
-      } finally {
-        setLoading(false);
+        Swal.fire('Error', 'Failed to fetch user data!', 'error');
       }
-    };
-
-    fetchUserData();
-  }, [navigate]);
-
-  const handleCardClick = (route) => {
-    navigate(route);
+    } else {
+      Swal.fire('Error', 'Invalid OTP!', 'error');
+    }
   };
-
-  const handleBuyDiamonds = () => {
-    Swal.fire({
-      title: 'Buy Diamonds',
-      html: `
-        <input type="number" id="diamondAmount" class="swal2-input" placeholder="Enter amount">
-      `,
-      confirmButtonText: 'Buy',
-      showCancelButton: true,
-      preConfirm: () => {
-        const amount = Swal.getPopup().querySelector('#diamondAmount').value;
-        if (!amount || amount <= 0) {
-          Swal.showValidationMessage('Please enter a valid amount');
-        }
-        return { amount };
-      }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire('Purchase Successful', `You've bought ${result.value.amount} diamonds!`, 'success');
-      }
-    });
-  };
-
-  const handleLogout = () => {
-    Swal.fire({
-      title: 'Are you sure you want to logout?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, logout',
-      cancelButtonText: 'Cancel'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        localStorage.clear(); // Clear all localStorage items
-        navigate('/login');
-      }
-    });
-  };
-
-  if (loading) {
-    return <div className="loading">Loading...</div>;
-  }
 
   return (
-    <div className="dashboard">
-      <header className="dashboard-header">
-        <h1>Welcome, {user?.firstname || 'User'}</h1>
-        <div className="user-info">
-          <div className="notification-badge">
-            <FaBell />
-          </div>
-          <img src={user?.profile_picture || 'default-avatar.png'} alt="Profile" className="profile-picture" />
-          <span>{user?.leo_number}</span>
+    <div className="login-container">
+    <div className="login-wrapper">
+        <div className="login-illustration">
+            <img src={LoginIllustration} alt="Login Illustration" />
         </div>
-      </header>
-
-      <section className="diamond-balance">
-        <FaGem className="diamond-icon" />
-        <div className="balance-info">
-          <h2>Diamond Balance</h2>
-          <p>{user?.diomand_balance || 0}</p>
+        <div className="login-form-section">
+            <h2 className="login-title">
+                {step === 1 ? 'Enter Phone Number' : 'Enter OTP'}
+            </h2>
+            <form 
+                className="login-form" 
+                onSubmit={step === 1 ? handlePhoneNumberSubmit : handleOtpSubmit}
+            >
+                {step === 1 ? (
+                    <>
+                        <input
+                            type="tel"
+                            className="login-input"
+                            placeholder="Phone Number"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            required
+                        />
+                        <button type="submit" className="login-button">
+                            Send OTP
+                        </button>
+                    </>
+                ) : (
+                    <>
+                        <input
+                            type="text"
+                            className="login-input"
+                            placeholder="OTP"
+                            value={otp}
+                            onChange={(e) => setOtp(e.target.value)}
+                            required
+                        />
+                        <button type="submit" className="login-button">
+                            Verify OTP
+                        </button>
+                    </>
+                )}
+            </form>
         </div>
-      </section>
-
-      <section className="stats-section">
-        <div className="stat-card">
-          <h4>Today's Transfers</h4>
-          <p>23</p>
-        </div>
-        <div className="stat-card">
-          <h4>Monthly Sales</h4>
-          <p>$2,456</p>
-        </div>
-        <div className="stat-card">
-          <h4>Active Users</h4>
-          <p>156</p>
-        </div>
-      </section>
-
-      <section className="dashboard-cards">
-        <div className="card" onClick={() => handleCardClick('/payment-history')}>
-          <FaHistory className="card-icon" />
-          <h3>Payment History</h3>
-        </div>
-        <div className="card" onClick={() => handleCardClick('/transfer-diamonds')}>
-          <FaExchangeAlt className="card-icon" />
-          <h3>Transfer Diamonds</h3>
-        </div>
-        <div className="card" onClick={() => handleCardClick('/profile')}>
-          <FaUser className="card-icon" />
-          <h3>My Profile</h3>
-        </div>
-      </section>
-
-      <section className="recent-transactions">
-        <h2>Recent Transactions</h2>
-        <div className="transaction-list">
-          {recentTransactions.map((transaction, index) => (
-            <div key={index} className="transaction-item">
-              <div className="transaction-info">
-                <span className="transaction-type">{transaction.type}</span>
-                <span className="transaction-amount">{transaction.amount} diamonds</span>
-              </div>
-              <span className="transaction-date">{transaction.date}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <div className="quick-actions">
-        <button onClick={() => navigate('/settings')} className="action-button">
-          <FaCog /> Settings
-        </button>
-        <button onClick={handleLogout} className="action-button logout">
-          <FaSignOutAlt /> Logout
-        </button>
-      </div>
-
-      <button className="floating-button" onClick={handleBuyDiamonds}>
-        <FaGem /> Buy Diamonds
-      </button>
     </div>
+</div>
   );
-}
+};
 
-export default Dashboard;
+export default PhoneNumberOtp;

@@ -64,7 +64,7 @@ function Registration() {
         }
       });
 
-      const response = await fetch('http://109.199.99.84:8090/api/collections/resellers_registration/records', {
+      const response = await fetch('http://127.0.0.1:8090/api/collections/resellers_registration/records', {
         method: 'POST',
         body: formDataToSubmit,
       });

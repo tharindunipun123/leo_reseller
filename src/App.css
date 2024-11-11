@@ -1,0 +1,170 @@
+/* App.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+    /* Gradient Color Variations */
+    --gradient-primary: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+    --gradient-secondary: linear-gradient(to right, #00b4db, #0083b0);
+    --gradient-tertiary: linear-gradient(to bottom right, #5433FF, #20BDFF, #A5FECB);
+    --gradient-ocean: linear-gradient(to right, #00d2ff, #3a7bd5);
+    --gradient-sky: linear-gradient(to bottom, #4facfe 0%, #00f2fe 100%);
+    
+    /* Solid Colors */
+    --primary-color: #2575fc;
+    --secondary-color: #6a11cb;
+    --text-color-light: #ffffff;
+    --text-color-dark: #1a1a2e;
+}
+
+/* Universal Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+body {
+    background: var(--gradient-primary);
+    background-size: 400% 400%;
+    animation: GradientAnimation 15s ease infinite;
+    color: var(--text-color-light);
+    line-height: 1.6;
+}
+
+/* Gradient Animation */
+@keyframes GradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Container Styles */
+.app-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: transparent;
+}
+
+/* Card Styles with Glassmorphism */
+.glass-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
+}
+
+/* Button Styles */
+.gradient-btn {
+    background: var(--gradient-secondary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.gradient-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* Text Styles */
+.gradient-text {
+    background: var(--gradient-tertiary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--gradient-secondary);
+    border-radius: 10px;
+}
+
+/* Responsive Typography */
+h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.full-height {
+    min-height: 100vh;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+}
+
+/* Additional Hover and Interaction Effects */
+.hover-lift {
+    transition: transform 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-10px);
+}
+
+/* Error and Success States */
+.error-state {
+    color: #ff4757;
+    background: rgba(255, 71, 87, 0.1);
+}
+
+.success-state {
+    color: #2ed573;
+    background: rgba(46, 213, 115, 0.1);
+}
